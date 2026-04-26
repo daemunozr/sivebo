@@ -85,3 +85,60 @@ El MS-01 implementará mecanismos de seguridad que incluyen:
 - **Repositorio:** Uso obligatorio de **GitHub** para evidenciar el avance progresivo, la participación del equipo, el historial de cambios, y el uso de ramas de desarrollo con commits frecuentes.
 - **Pruebas y Documentación:** Se desarrollará documentación técnica del sistema y pruebas unitarias de los módulos principales.
 - **Despliegue:** Despliegue en entorno local exponiendo los servicios a través del API Gateway, dejando el sistema disponible mediante una URL para el consumo de las APIs.
+
+## 9\. Entidades
+
+**1\. db_ms_auth (Usuarios y Seguridad)**
+
+- **Rol: id_rol (PK), nombre_rol, descripcion.**
+- **Usuario: id_usuario (PK), username (UK), password_hash, email (UK), id_rol (FK), id_sucursal_asignada (Ref Ext).**
+- **Token_Sesion: id_token (PK), id_usuario (FK), token, fecha_expiracion.**
+
+**2\. db_ms_sucursales (Configuración de Red)**
+
+- **Comuna: id_comuna (PK), nombre_comuna, id_region (FK).**
+- **Region: id_region (PK), nombre_region.**
+- **Sucursal: id_sucursal (PK), nombre_sucursal, id_comuna (FK), direccion_fisica, telefono_contacto.**
+
+**3\. db_ms_admision (Ingreso de Carga)**
+
+- **Tipo_Carga: id_tipo (PK), nombre_tipo (Ej: Documento, Encomienda).**
+- **Admision: id_admision (PK), id_cliente_rem (Ref Ext), id_cliente_dest (Ref Ext), id_sucursal_origen (Ref Ext), id_tipo (FK), peso_kg, fecha_creacion.**
+
+**4\. db_ms_tracking (Logística y Estados)**
+
+- **Estado_Maestro: id_estado (PK), nombre_estado (Ej: Recibido, En Tránsito, Entregado).**
+- **Guia_Despacho: id_guia (PK), codigo_tracking (UK), id_admision (Ref Ext).**
+- **Historial_Logistico: id_hist (PK), id_guia (FK), id_estado (FK), id_sucursal_actual (Ref Ext), fecha_hora, comentario.**
+
+**5\. db_ms_inv_paquetes (Stock de Envíos en Bodega)**
+
+- **Ubicacion_Bodega: id_ubicacion (PK), id_sucursal (Ref Ext), codigo_estante.**
+- **Inventario_Paquete: id_inv (PK), id_guia_tracking (Ref Ext), id_ubicacion (FK), fecha_ingreso_bodega, fecha_salida_bodega (NULL).**
+
+**6\. db_ms_inv_embalaje (Materiales de Venta)**
+
+- **Categoria_Embalaje: id_cat (PK), nombre_categoria (Ej: Cajas, Sobres).**
+- **Articulo_Embalaje: id_art (PK), id_cat (FK), nombre, descripcion, precio_vta.**
+- **Stock_Sucursal: id_stock (PK), id_art (FK), id_sucursal (Ref Ext), cantidad_disponible.**
+
+**7\. db_ms_ventas (Transacciones POS)**
+
+- **Venta: id_venta (PK), nro_boleta (UK), id_usuario_vta (Ref Ext), id_sucursal (Ref Ext), fecha_vta, subtotal, iva, total.**
+- **Detalle_Venta: id_det (PK), id_venta (FK), id_articulo_emb (Ref Ext), cantidad, precio_unit_historico.**
+
+**8\. db_ms_finanzas (Caja y Reportes)**
+
+- **Caja_Sucursal: id_caja (PK), id_sucursal (Ref Ext), estado_actual.**
+- **Apertura_Cierre: id_sesion (PK), id_caja (FK), id_usuario (Ref Ext), monto_apertura, monto_cierre, fecha_hora_ap, fecha_hora_ci.**
+- **Movimiento_Caja: id_mov (PK), id_sesion (FK), tipo (Ingreso/Egreso), monto, id_referencia_vta (Ref Ext).**
+
+**9\. db_ms_clientes (Base de Datos de Personas)**
+
+- **Tipo_Documento: id_tipo_doc (PK), descripcion (Ej: RUT, Pasaporte).**
+- **Cliente: id_cliente (PK), id_tipo_doc (FK), nro_documento (UK), nombre, apellido, email, telefono.**
+
+**10\. db_ms_portal (Consultas Públicas y Feedback)**
+
+- **Consulta_Publica: id_cons (PK), codigo_tracking_consultado, ip_usuario, fecha_hora.**
+- **Feedback_Cliente: id_feed (PK), id_guia_tracking (Ref Ext), calificacion (1-5), comentario.**
