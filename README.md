@@ -1,21 +1,17 @@
 # SIVEBO - Sistema de Ventas y Bodega
-**PROPUESTA DE PROYECTO**
+# PROPUESTA DE PROYECTO
 
-Sistema POS Integral para Operadores Polifuncionales
-
-**RapidinBombin**
+**Sistema POS Integral para Operadores Polifuncionales - RapidinBombin**
 
 Fecha: Abril 2025
 
-# **1\. Problemática**
+## 1\. Definición del Negocio y Problemática
 
-## **1.1 Contexto de la Empresa**
+### 1.1 Contexto de la Empresa
 
 RapidinBombin es una empresa de logística con presencia en múltiples sucursales, cuya operación diaria depende de operadores polifuncionales. Estos trabajadores son responsables de ejecutar una amplia variedad de tareas críticas para el funcionamiento del negocio.
 
-## **1.2 Funciones del Operador Polifuncional**
-
-Actualmente, cada operador debe gestionar de forma simultánea las siguientes responsabilidades:
+### 1.2 Funciones del Operador Polifuncional
 
 - Admisión y recepción de paquetería entrante
 - Manejo del inventario de paquetes recepcionados y despachados
@@ -23,89 +19,69 @@ Actualmente, cada operador debe gestionar de forma simultánea las siguientes re
 - Venta de embalaje y servicios adicionales a los clientes
 - Gestión de las finanzas de la sucursal (caja, cierre, reportes)
 
-## **1.3 Descripción del Problema**
+### 1.3 Descripción del Problema
 
-La empresa enfrenta una serie de problemas operacionales derivados de la fragmentación de sus sistemas actuales:
+La empresa busca un sistema integrado para los operadores polifuncionales. Debido a la gran cantidad de funciones, la empresa busca que el operador interactúe a través de una única interfaz unificada, rápida y fácil de aprender para atender un alto volumen de clientes. Los problemas actuales incluyen la fragmentación de herramientas, la elevada curva de aprendizaje, la falta de trazabilidad integral y el riesgo de errores financieros.
 
-**Fragmentación de herramientas:**
+## 2\. Solución Propuesta
 
-El operador debe alternar entre múltiples sistemas o herramientas para completar sus tareas diarias. Esto provoca pérdida de tiempo, errores de ingreso y una experiencia de trabajo ineficiente.
+| Solución                                    | Descripción                                                                                                                                                                                                                              | Ventajas                                                                                                  | Desventajas                                                     |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| **Sistema POS Integral con Microservicios** | Desarrollo de un sistema web unificado basado en arquitectura de microservicios con Spring Boot. Cada funcionalidad opera como un servicio independiente con su propia base de datos MariaDB, comunicados mediante API REST y WebClient. | Alta escalabilidad. Fácil mantenimiento por módulos. Alineado con directrices académicas de 3er semestre. | Mayor complejidad inicial. Requiere coordinación y API Gateway. |
 
-**Alto volumen de atención a clientes:**
+## 3\. Arquitectura de Microservicios (Solución Recomendada)
 
-Las sucursales de RapidinBombin atienden un gran volumen de clientes diariamente. La lentitud en los procesos operacionales genera colas de espera, insatisfacción del cliente y pérdida de productividad.
+El sistema se desarrollará obligatoriamente utilizando **Spring Boot** y estará compuesto por un **API Gateway (Eureka)** para la gestión de peticiones y los siguientes 10 microservicios independientes:
 
-**Curva de aprendizaje elevada:**
+- **MS-01 Auth & Usuarios:** Gestión de login, tokens de sesión, encriptación de contraseñas y roles (Admin, Operador, Cliente).
+- **MS-02 Sucursales:** Configuración y administración de la sucursal.
+- **MS-03 Admisión de Paquetes:** Registro de ingreso y generación de número de tracking.
+- **MS-04 Tracking & Logística:** Control de estados (recibido, en tránsito, entregado).
+- **MS-05 Inventario de Paquetes:** Stock de paquetes recepcionados y despachados.
+- **MS-06 Inventario de Embalaje:** Control de materiales de embalaje por sucursal.
+- **MS-07 Ventas / POS:** Venta de embalaje y servicios, generación de boletas.
+- **MS-08 Finanzas:** Apertura y cierre de caja, reportes de ventas y gastos.
+- **MS-09 Clientes:** Registro de remitentes y destinatarios.
+- **MS-10 Portal Cliente:** Consulta pública de tracking.
 
-Al utilizar sistemas separados y sin una interfaz unificada, la capacitación de nuevos operadores es lenta y costosa. Cada nuevo ingreso requiere aprender múltiples plataformas.
+## 4\. Desacoplamiento y Principios Técnicos
 
-**Falta de trazabilidad integral:**
+- **Comunicación:** Interacción mediante **API REST** y consultas de datos utilizando **WebClient**. Los microservicios estarán completamente desacoplados.
+- **API Gateway:** Implementación de **Eureka** (u otro equivalente) para el enrutamiento y registro de servicios.
+- **Database per Service:** Cada microservicio tendrá su propia base de datos independiente. **No se compartirán tablas ni se duplicarán estructuras.**
+- **Motor de Base de Datos:** Se utilizará **MariaDB** en entorno local, garantizando la normalización y modelos relacionales validados.
+- **Patrón de Diseño:** Implementación del Patrón **CSR (Controller-Service-Repository)** y uso de **DTOs**.
 
-Sin un sistema centralizado, es difícil realizar seguimiento completo a un paquete desde su admisión hasta su entrega, ni cruzar información entre inventario, ventas y finanzas de forma confiable.
+## 5\. Seguridad Básica
 
-**Riesgo de errores financieros:**
+El MS-01 implementará mecanismos de seguridad que incluyen:
 
-La gestión manual o desconectada de la caja y los reportes financieros aumenta el riesgo de descuadres, pérdidas no detectadas y falta de transparencia en la operación de cada sucursal.
+- Encriptación de contraseñas antes del almacenamiento en la base de datos.
+- Autenticación de usuarios y generación de tokens de sesión (JWT) en el login.
+- Validación de accesos según los roles definidos (Admin, Operador, Cliente).
 
-## **1.4 Impacto del Problema**
+## 6\. Estructura de Datos (Borrador de Entidades Principales)
 
-Los problemas descritos generan un impacto directo en tres dimensiones clave del negocio:
+- **MS-Auth:** Usuario, Rol, Permiso.
+- **MS-Sucursales:** Sucursal, Caja.
+- **MS-Admisión:** Admision, Etiqueta.
+- **MS-Tracking:** Tracking, EstadoLogistico.
+- **MS-InvPaquetes:** Paquete, MovimientoPaquete.
+- **MS-InvEmbalaje:** ArticuloEmbalaje, MovimientoEmbalaje.
+- **MS-Ventas:** Venta, DetalleVenta.
+- **MS-Finanzas:** TransaccionFinanciera, CierreCaja.
+- **MS-Clientes:** Cliente, Direccion.
+- **MS-Portal:** (Consulta de vistas integradas/DTOs desde Tracking).
 
-- Operacional: Mayor tiempo por atención, errores frecuentes y reprocesos
-- Económico: Pérdidas por descuadres, mermas de inventario no detectadas y ventas mal registradas
-- Experiencia del cliente: Tiempos de espera elevados y falta de información en tiempo real sobre sus envíos
+## 7\. Reglas de Negocio
 
-# **2\. Soluciones Propuestas**
+- **Control de Stock:** No se puede realizar una venta en MS-07 si el MS-06 indica que no hay stock suficiente de embalaje.
+- **Generación de Tracking:** Todo paquete admitido en MS-03 debe generar automáticamente un estado inicial en MS-04.
+- **Cierre de Caja:** MS-08 debe cuadrar las ventas registradas en MS-07 antes de permitir el cierre de caja diario.
+- **Validación de Roles:** Solo un usuario con rol 'Admin' o 'Supervisor' puede anular una venta.
 
-A continuación se presentan tres alternativas de solución para abordar la problemática descrita. Se evalúan en función de su viabilidad técnica, escalabilidad y alineación con los requerimientos de RapidinBombin.
+## 8\. Control de Versiones, Pruebas y Despliegue
 
-| **Solución**                                                          | **Descripción**                                                                                                                                                                                                                                                 | **Ventajas**                                                                                                                       | **Desventajas**                                                                                   |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| **Solución A (Recomendada): Sistema POS Integral con Microservicios** | Desarrollo de un sistema web unificado basado en arquitectura de microservicios. Cada funcionalidad (admisión, tracking, inventario, ventas, finanzas) opera como un servicio independiente con su propia base de datos MariaDB, comunicados mediante API REST. | Alta escalabilidad. Fácil mantenimiento por módulos. Permite agregar sucursales sin rediseñar el sistema. Portal cliente incluido. | Mayor complejidad inicial de desarrollo. Requiere buena coordinación entre servicios.             |
-| ---                                                                   | ---                                                                                                                                                                                                                                                             | ---                                                                                                                                | ---                                                                                               |
-| **Solución B: Sistema Monolítico con Módulos**                        | Desarrollo de una aplicación única que integra todas las funcionalidades en un solo proyecto con una base de datos centralizada y módulos separados por funcionalidad.                                                                                          | Desarrollo más rápido. Menor complejidad inicial. Fácil de desplegar.                                                              | Difícil de escalar. Un fallo puede afectar todo el sistema. Poco flexible ante nuevas sucursales. |
-| ---                                                                   | ---                                                                                                                                                                                                                                                             | ---                                                                                                                                | ---                                                                                               |
-| **Solución C: Software ERP Comercial Adaptado**                       | Adquisición y configuración de un ERP comercial existente (como Odoo o similar) adaptado a los procesos de RapidinBombin.                                                                                                                                       | Implementación rápida. Soporte técnico incluido. Funcionalidades probadas.                                                         | Costo de licenciamiento. Poca personalización. Dependencia del proveedor externo.                 |
-| ---                                                                   | ---                                                                                                                                                                                                                                                             | ---                                                                                                                                | ---                                                                                               |
-
-## **2.1 Solución Recomendada: Sistema POS Integral con Microservicios**
-
-Se recomienda la Solución A debido a su capacidad de escalar con el crecimiento de RapidinBombin y su alineación con las mejores prácticas de desarrollo de software moderno.
-
-El sistema estará compuesto por 10 microservicios independientes:
-
-- MS-01 Auth & Usuarios: Gestión de login y roles (admin, operador, supervisor)
-- MS-02 Sucursales: Configuración y administración de una unica sucursal
-- MS-03 Admisión de Paquetes: Registro de ingreso y generación de número de tracking
-- MS-04 Tracking & Logística: Control de estados (recibido, en tránsito, entregado)
-- MS-05 Inventario de Paquetes: Stock de paquetes recepcionados y despachados
-- MS-06 Inventario de Embalaje: Control de materiales de embalaje por sucursal
-- MS-07 Ventas / POS: Venta de embalaje y servicios, generación de boletas
-- MS-08 Finanzas: Apertura y cierre de caja, reportes de ventas y gastos
-- MS-09 Clientes: Registro de remitentes y destinatarios
-- MS-10 Portal Cliente: Consulta pública de tracking sin necesidad de login
-
-## **2.2 Principios Técnicos de la Solución**
-
-La solución propuesta se basa en los siguientes principios técnicos:
-
-- Comunicación entre servicios mediante API REST (HTTP/JSON)
-- Principio Database per Service: cada microservicio tiene su propia base de datos MariaDB independiente
-- Implementación del Patrón CSR (Controller-Service-Repository) en cada servicio
-- Uso de DTOs (Data Transfer Objects) para el intercambio de datos entre capas
-- Persistencia de datos con MariaDB gestionada mediante XAMPP en entorno de desarrollo
-- Interfaz web unificada para el operador, diseñada para ser rápida y fácil de aprender
-
-## **2.3 Criterios de Selección**
-
-La Solución A fue seleccionada por cumplir con los siguientes criterios prioritarios del proyecto:
-
-- Interfaz única para el operador que centraliza todas las funciones
-- Soporte para múltiples sucursales sin necesidad de rediseño
-- Portal web para que los clientes consulten el estado de sus paquetes
-- Sistema de roles diferenciados (admin, operador, supervisor)
-- Escalabilidad para incorporar nuevos servicios o sucursales en el futuro
-
-_Documento preparado para revisión y aprobación - RapidinBombin 2025_
-
-
+- **Repositorio:** Uso obligatorio de **GitHub** para evidenciar el avance progresivo, la participación del equipo, el historial de cambios, y el uso de ramas de desarrollo con commits frecuentes.
+- **Pruebas y Documentación:** Se desarrollará documentación técnica del sistema y pruebas unitarias de los módulos principales.
+- **Despliegue:** Despliegue en entorno local exponiendo los servicios a través del API Gateway, dejando el sistema disponible mediante una URL para el consumo de las APIs.
