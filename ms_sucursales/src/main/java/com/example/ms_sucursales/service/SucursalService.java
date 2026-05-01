@@ -30,7 +30,7 @@ public class SucursalService {
         }
 
         public List<Sucursal> findByIdComuna(Integer id_comuna) {
-                return repository.findbyIdComuna(id_comuna);
+                return repository.findByIdComuna(id_comuna);
         }
 
         public Sucursal save(Sucursal sucursal) {

@@ -25,11 +25,11 @@ public class Sucursal {
     private String nombre; 
     
     @Column(unique=true, nullable=false)
-    private Integer id_comuna;
+    private Integer idComuna;
     
     @Column(unique=true, nullable=false)
-    private String direccion_fisica; 
+    private String direccionFisica; 
 
     @Column(unique=true, nullable=true)
-    private Integer telefono_contacto;
+    private Integer telefonoContacto;
 }

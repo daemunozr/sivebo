@@ -22,7 +22,7 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Long>{
 
     Sucursal findById(Integer id);
 
-    List<Sucursal> findbyIdComuna(Integer id_comuna);
+    List<Sucursal> findByIdComuna(Integer id_comuna);
 
     Sucursal findByNombre(String nombre);
 
