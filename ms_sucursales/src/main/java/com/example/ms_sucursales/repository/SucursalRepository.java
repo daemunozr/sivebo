@@ -14,7 +14,7 @@ import com.example.ms_sucursales.model.Sucursal;
 
 /**
  *
- * @author AO-Alumno
+ * @author daemunozr
  */
 
 @Repository
