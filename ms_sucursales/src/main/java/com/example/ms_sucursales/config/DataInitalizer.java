@@ -23,11 +23,8 @@ public class DataInitalizer implements CommandLineRunner{
             log.info(">>> ms_sucursales: Base de datos no esta vacia. Se omite carga inicial.");
             return;
         }
-        repository.save(new Sucursal(Long.valueOf(1), "Sucursal Vicuña Mackenna", Long.valueOf(1), "Av. Vicuña Mackenna 886", Long.valueOf(123456789)));
-        repository.save(new Sucursal());
-        log.info("ms_sucursales: {} sucursal insertada.", repository.count());
+        repository.save(new Sucursal(null, "Sucursal Vicuña Mackenna", Long.valueOf(1), "Av. Vicuña Mackenna 886", Long.valueOf(123456789)));
+        repository.save(new Sucursal(null, "Sucursal Providencia", Long.valueOf(2), "Av. Providencia 2000", Long.valueOf(987654321)));
+        log.info("ms_sucursales: {} sucursales insertadas.", repository.count());
     }
-
-
-        
 }
