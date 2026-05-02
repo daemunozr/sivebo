@@ -5,13 +5,18 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name= "sucursal")
+@Table(name= "sucursales")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,15 +26,22 @@ public class Sucursal {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message="Nombre de sucursal es obligatorio")
+    @Size(max=20, message="Nombre de sucursal no puede exceder los 20 caracteres")
     @Column(unique=true, length=20, nullable=false)
     private String nombre; 
     
-    @Column(unique=true, nullable=false)
-    private Long idComuna;
+    @NotNull(message="Id de comuna es obligatorio")
+    @ManyToOne
+    @JoinColumn(name="id_comuna", nullable=false)
+    private Integer idComuna;
     
+    @NotBlank(message="Direccion fisica es obligatoria")
     @Column(unique=true, nullable=false)
     private String direccionFisica; 
 
+    @NotNull(message="Telefono de contacto es obligatorio")
+    @Size(min=9, max=9, message="Telefono de contacto debe tener 9 digitos")
     @Column(unique=true, precision=9, nullable=true)
-    private Long telefonoContacto;
+    private Integer telefonoContacto;
 }

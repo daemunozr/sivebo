@@ -11,12 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.example.ms_sucursales.model.Sucursal;
 
-
-/**
- *
- * @author daemunozr
- */
-
 @Repository
 public interface SucursalRepository extends JpaRepository<Sucursal, Long>{
 
@@ -25,10 +19,6 @@ public interface SucursalRepository extends JpaRepository<Sucursal, Long>{
     List<Sucursal> findByIdComuna(Integer id_comuna);
 
     Sucursal findByNombre(String nombre);
-
-    @Override
-    List<Sucursal> findAll();
-
 
     /*
     TODO Queries
