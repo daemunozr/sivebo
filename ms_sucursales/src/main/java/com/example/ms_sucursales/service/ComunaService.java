@@ -1,6 +1,7 @@
 package com.example.ms_sucursales.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +22,10 @@ public class ComunaService {
                 return repository.findAll();
         }
 
-        public Comuna findById(Integer id) {
+        public Optional<Comuna> findById(Long id) {
                 return repository.findById(id);
         }
 
-        public Comuna findByNombre(String nombre) {
-                return repository.findByNombre(nombre);
-        }
 
         public Comuna save(Comuna comuna) {
                 return repository.save(comuna);

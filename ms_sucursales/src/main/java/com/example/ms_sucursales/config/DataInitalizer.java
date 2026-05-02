@@ -25,29 +25,59 @@ public class DataInitalizer implements CommandLineRunner{
 
     @Override
     public void run(String... args){
+
+        Region regionMetropolitana;
+
+        if(regionRepository.count() > 0){
+
+            log.info(">>> ms_sucursales: Tabla regiones no esta vacia. Se omite carga inicial.");
+            regionMetropolitana = regionRepository.findById((long)1)
+                .orElseThrow(() -> new RuntimeException("Region Metropolitana no encontrada en la base de datos."));
+        }else{
+            regionMetropolitana = regionRepository.save(new Region(
+            null,
+            "Metropolitana"
+            ));
+
+            log.info("ms_sucursales: {} regiones insertadas.", regionRepository.count());
+        }
+
+        Comuna nunoa;
+        Comuna providencia;
+
+        if(comunaRepository.count() > 0){
+            log.info(">>> ms_sucursales: Tabla comunas no esta vacia. Se omite carga inicial.");
+            
+            nunoa = comunaRepository.findById((long)1)
+                .orElseThrow(() -> new RuntimeException("Comuna Ñuñoa no encontrada en la base de datos."));
+            
+            providencia = comunaRepository.findById((long)2)
+                .orElseThrow(() -> new RuntimeException("Comuna Providencia no encontrada en la base de datos."));
+
+        }else{
+            nunoa = comunaRepository.save(new Comuna(
+            null,
+            "Ñuñoa",
+            regionMetropolitana
+            ));
+
+            providencia = comunaRepository.save(new Comuna(
+            null,
+            "Providencia",
+            regionMetropolitana
+            ));
+
+            log.info("ms_sucursales: {} comunas insertadas.", comunaRepository.count());
+        }
+
         if(sucursalRepository.count() > 0){
-            log.info(">>> ms_sucursales: Base de datos no esta vacia. Se omite carga inicial.");
+            log.info(">>> ms_sucursales: Tabla sucursales no esta vacia. Se omite carga inicial.");
             return;
         }
 
         log.info(">>> DataInitializer: Base de datos vacia, insertando datos de prueba...");
 
-        Region regionMetropolitana = regionRepository.save(new Region(
-            null,
-            "Metropolitana"
-        ));
-
-        Comuna nunoa = comunaRepository.save(new Comuna(
-            null,
-            "Ñuñoa",
-            regionMetropolitana
-        ));
-
-        Comuna providencia = comunaRepository.save(new Comuna(
-            null,
-            "Providencia",
-            regionMetropolitana
-        ));
+        
 
         sucursalRepository.save(new Sucursal(
             null,

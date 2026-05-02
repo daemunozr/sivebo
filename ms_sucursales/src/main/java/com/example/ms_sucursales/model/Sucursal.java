@@ -8,6 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Digits;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -41,7 +42,7 @@ public class Sucursal {
     private String direccionFisica; 
 
     @NotNull(message="Telefono de contacto es obligatorio")
-    @Size(min=9, max=9, message="Telefono de contacto debe tener 9 digitos")
+    @Digits(integer=9, fraction=0, message="Telefono de contacto debe tener 9 digitos")
     @Column(unique=true, precision=9, nullable=true)
     private Integer telefonoContacto;
 }

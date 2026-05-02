@@ -1,6 +1,7 @@
 package com.example.ms_sucursales.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,7 @@ public class SucursalService {
                 return repository.findAll();
         }
 
-        public Sucursal findById(Long id) {
+        public Optional<Sucursal> findById(Long id) {
                 return repository.findById(id);
         }
 
