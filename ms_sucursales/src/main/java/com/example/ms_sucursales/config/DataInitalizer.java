@@ -1,0 +1,33 @@
+package com.example.ms_sucursales.config;
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import com.example.ms_sucursales.model.Sucursal;
+import com.example.ms_sucursales.repository.SucursalRepository;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
+@Component
+@RequiredArgsConstructor
+public class DataInitalizer implements CommandLineRunner{
+
+    private final SucursalRepository repository;
+
+    @Override
+    public void run(String... args){
+        if(repository.count() > 0){
+            log.info(">>> ms_sucursales: Base de datos no esta vacia. Se omite carga inicial.");
+            return;
+        }
+        repository.save(new Sucursal(Long.valueOf(1), "Sucursal Vicuña Mackenna", Long.valueOf(1), "Av. Vicuña Mackenna 886", Long.valueOf(123456789)));
+        repository.save(new Sucursal());
+        log.info("ms_sucursales: {} sucursal insertada.", repository.count());
+    }
+
+
+        
+}

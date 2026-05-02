@@ -19,17 +19,17 @@ public class Sucursal {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(unique=true, length=20, nullable=false)
     private String nombre; 
     
     @Column(unique=true, nullable=false)
-    private Integer idComuna;
+    private Long idComuna;
     
     @Column(unique=true, nullable=false)
     private String direccionFisica; 
 
-    @Column(unique=true, nullable=true)
-    private Integer telefonoContacto;
+    @Column(unique=true, precision=9, nullable=true)
+    private Long telefonoContacto;
 }
