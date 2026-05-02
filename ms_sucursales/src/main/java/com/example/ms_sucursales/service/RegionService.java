@@ -21,10 +21,6 @@ public class RegionService {
                 return repository.findById(id);
         }
 
-        public Region findByNombre(String nombre) {
-                return repository.findByNombre(nombre);
-        }
-
         public List<Region> findAll() {
                 return repository.findAll();
         }

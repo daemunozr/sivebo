@@ -33,6 +33,6 @@ public class Comuna {
 
         @NotNull(message="Id de region es obligatorio")
         @ManyToOne
-        @JoinColumn(name="id_region", nullable=false)
+        @JoinColumn(name="idRegion", nullable=false)
         private Region region;
 }

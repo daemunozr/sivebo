@@ -33,7 +33,7 @@ public class Sucursal {
     
     @NotNull(message="Id de comuna es obligatorio")
     @ManyToOne
-    @JoinColumn(name="id_comuna", nullable=false)
+    @JoinColumn(name="idComuna", nullable=false)
     private Comuna comuna;
     
     @NotBlank(message="Direccion fisica es obligatoria")
