@@ -8,10 +8,6 @@ import com.example.ms_sucursales.model.Region;
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Long> {
 
-    Region findById(Integer id);
-
-    Region findByNombre(String nombre);
-
     /*
     TODO Queries
     */

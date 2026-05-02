@@ -21,16 +21,8 @@ public class SucursalService {
                 return repository.findAll();
         }
 
-        public Sucursal findById(Integer id) {
+        public Sucursal findById(Long id) {
                 return repository.findById(id);
-        }
-
-        public Sucursal findByNombre(String nombre) {
-                return repository.findByNombre(nombre);
-        }
-
-        public List<Sucursal> findByIdComuna(Integer id_comuna) {
-                return repository.findByIdComuna(id_comuna);
         }
 
         public Sucursal save(Sucursal sucursal) {

@@ -31,12 +31,11 @@ public class DataInitalizer implements CommandLineRunner{
         }
 
         log.info(">>> DataInitializer: Base de datos vacia, insertando datos de prueba...");
+
         Region regionMetropolitana = regionRepository.save(new Region(
             null,
             "Metropolitana"
         ));
-
-
 
         Comuna nunoa = comunaRepository.save(new Comuna(
             null,
@@ -50,7 +49,6 @@ public class DataInitalizer implements CommandLineRunner{
             regionMetropolitana
         ));
 
-
         sucursalRepository.save(new Sucursal(
             null,
             "Vicuña Mackenna", 
@@ -58,6 +56,7 @@ public class DataInitalizer implements CommandLineRunner{
             "Av. Vicuña Mackenna 886",
             123456789
         ));
+
         sucursalRepository.save(new Sucursal(
             null,
             "Providencia",
@@ -65,6 +64,7 @@ public class DataInitalizer implements CommandLineRunner{
             "Av. Providencia 2000",
             987654321
         ));
+
         log.info("ms_sucursales: {} sucursales insertadas.", sucursalRepository.count());
     }
 }
