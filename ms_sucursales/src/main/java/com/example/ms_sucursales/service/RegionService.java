@@ -17,16 +17,16 @@ public class RegionService {
         @Autowired
         private RegionRepository repository;
 
-        public List<Region> findAll() {
-                return repository.findAll();
-        }
-
         public Region findById(Integer id) {
                 return repository.findById(id);
         }
 
         public Region findByNombre(String nombre) {
                 return repository.findByNombre(nombre);
+        }
+
+        public List<Region> findAll() {
+                return repository.findAll();
         }
 
         public Region save(Region region) {
@@ -36,4 +36,5 @@ public class RegionService {
         public void deleteById(Long id) {
                 repository.deleteById(id);
         }
+
 }
