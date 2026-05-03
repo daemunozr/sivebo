@@ -26,6 +26,14 @@ public class SucursalService {
                 return repository.findById(id);
         }
 
+        public List<Sucursal> findByComunaId(Long comunaId) {
+                return repository.findByComunaId(comunaId);
+        }
+
+        public Sucursal findByNombre(String nombre) {
+                return repository.findByNombreContainingIgnoreCase(nombre);
+        }
+
         public Sucursal save(Sucursal sucursal) {
                 return repository.save(sucursal);
         }
@@ -33,4 +41,5 @@ public class SucursalService {
         public void deleteById(Long id) {
                 repository.deleteById(id);
         }
+
 }
